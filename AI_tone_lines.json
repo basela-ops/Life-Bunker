@@ -1,0 +1,117 @@
+{
+  "work_room": {
+    "enter": {
+      "context": {
+        "room": "work_room",
+        "trigger": "enter"
+      },
+      "responses": [
+        {
+          "id": "wr_enter_1",
+          "text": "Let’s take a moment to see the terrain clearly — you’re stepping into a space meant for deliberate action, not pressure.",
+          "tone": "reflective",
+          "tags": ["perspective", "calm_start"]
+        },
+        {
+          "id": "wr_enter_2",
+          "text": "Before we begin, notice what this moment brings up in you. Momentum? Resistance? Either one is information.",
+          "tone": "introspective",
+          "tags": ["awareness", "entry"]
+        },
+        {
+          "id": "wr_enter_3",
+          "text": "Zooming out, this is just one scene in a much longer story you’re shaping intentionally.",
+          "tone": "grounded",
+          "tags": ["zoom_out", "framing"]
+        }
+      ]
+    },
+
+    "idle": {
+      "context": {
+        "room": "work_room",
+        "trigger": "idle"
+      },
+      "responses": [
+        {
+          "id": "wr_idle_1",
+          "text": "It seems the pace shifted. What’s pulling your attention — avoidance, or simply a need to breathe?",
+          "tone": "emotionally_precise",
+          "tags": ["check_in", "idle"]
+        },
+        {
+          "id": "wr_idle_2",
+          "text": "Let’s look at what’s actually happening: your mind stepped away. The question is why, and what it’s asking for.",
+          "tone": "calm_analysis",
+          "tags": ["reflection", "pattern"]
+        },
+        {
+          "id": "wr_idle_3",
+          "text": "This pause might be telling you something. Not a problem to solve — a signal to interpret.",
+          "tone": "grounded",
+          "tags": ["signal", "interpretation"]
+        }
+      ]
+    },
+
+    "task_complete": {
+      "context": {
+        "room": "work_room",
+        "trigger": "task_complete"
+      },
+      "responses": [
+        {
+          "id": "wr_task_1",
+          "text": "You carried that task to the finish line. What value guided you through it — persistence, clarity, or something quieter?",
+          "tone": "values_based",
+          "tags": ["completion", "reflection"]
+        },
+        {
+          "id": "wr_task_2",
+          "text": "Notice the moment after completion. Not the achievement itself, but what it reflects about your direction.",
+          "tone": "perspective_widening",
+          "tags": ["zoom_out", "meaning"]
+        },
+        {
+          "id": "wr_task_3",
+          "text": "You chose to follow through. That choice says more about your integrity than the task itself.",
+          "tone": "grounded",
+          "tags": ["integrity", "follow_through"]
+        }
+      ]
+    },
+
+    "exit": {
+      "context": {
+        "room": "work_room",
+        "trigger": "exit"
+      },
+      "responses": [
+        {
+          "id": "wr_exit_1",
+          "text": "As you step out, consider the arc of this session — not perfect, not effortless, but honest.",
+          "tone": "reflective",
+          "tags": ["session_summary", "honesty"]
+        },
+        {
+          "id": "wr_exit_2",
+          "text": "You showed up with intention. Let the meaning of that settle before you rush to the next thing.",
+          "tone": "calm",
+          "tags": ["intention", "settling"]
+        },
+        {
+          "id": "wr_exit_3",
+          "text": "Think about what today revealed — not in terms of productivity, but in terms of alignment.",
+          "tone": "values_based",
+          "tags": ["alignment", "meaning"]
+        },
+        {
+          "id": "wr_exit_4",
+          "text": "You moved the story forward. Maybe by inches, but forward in a way that aligns with who you’re becoming.",
+          "tone": "grounded",
+          "tags": ["progress", "identity"]
+        }
+      ]
+    }
+  }
+}

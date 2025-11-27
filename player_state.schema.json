@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PlayerState",
+  "type": "object",
+  "required": ["user_id", "goals", "tasks", "mood", "session_tags"],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Unique identifier of the player."
+    },
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "category": { "type": "string" },
+          "priority": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["not_started", "in_progress", "completed", "dropped"]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "due_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "goal_id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["not_started", "in_progress", "completed", "blocked"]
+          },
+          "estimated_minutes": { "type": "number" },
+          "completed_at": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "mood": {
+      "type": "object",
+      "required": ["current", "last_updated"],
+      "properties": {
+        "current": {
+          "type": "string",
+          "description": "Current mood label (e.g., calm, anxious, tired)."
+        },
+        "last_updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["timestamp", "mood"],
+            "properties": {
+              "timestamp": { "type": "string", "format": "date-time" },
+              "mood": { "type": "string" },
+              "note": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "session_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags describing the current session (e.g., work_room, enter, idle, exit, task_complete)."
+    }
+  }
+}
