@@ -16,36 +16,48 @@ public class AIStateMachine : MonoBehaviour
     public AIState currentState = AIState.Idle;
 
     [Header("Metrics & Variables")]
-    // C# requires explicit type declaration: 'public int' instead of just 'daily_tasks = 0'.
+    // Tracks the number of tasks completed in the current session.
     public int dailyTasksCompleted = 0;
 
-     // 'float' is used for decimal numbers, crucial for time tracking in Unity.
+     // Tracks how long the AI has been in the Idle state.
     public float idleTime = 0f;
 
-     // A flag to simulate a 'trigger' from Usman's system.
+     // A flag to simulate a 'trigger' from Usman's external system.
     public bool externalTaskTrigger = false;
 
     // --- Thresholds for State Changes ---
-    private const float TIME_TO_ACTIVE_THRESHOLD = 5.0f; // 5 seconds of idle time triggers Active.
-    private const int TASK_COMPLETION_TARGET = 3;       // 3 tasks must be completed to trigger EndSession.
+    // 5 seconds of idle time triggers Active (Internal Trigger).
+    private const float TIME_TO_ACTIVE_THRESHOLD = 5.0f; 
+    // 3 tasks must be completed to trigger EndSession (Internal Goal).
+    private const int TASK_COMPLETION_TARGET = 3;       
 
-      // --- Event Delegates (Mocking coordination with other systems) ---
-    // C# delegates are similar to function pointers/callbacks in Python.
-    // 'event Action' is the standard way to declare a broadcast event.
+    // --- Event Delegates (Mocking coordination with other systems) ---
+    // Declaring events for communication with other C# scripts.
     public static event Action OnStateChange;
     public static event Action<int> OnTaskCompleted;
 
-    // Start is called once before the first frame update (like a '__init__' or setup function)
+    // Start is called once before the first frame update
     void Start()
     {
         // Set the initial state and log the beginning of the session.
         TransitionToState(AIState.Idle);
     }
 
-    // Update is called once per frame (this is Unity's main game loop, similar to a 'while True' loop)
+    // Update is called once per frame (Unity's main game loop)
     void Update()
     {
         // 1. Handle external manual triggers (for testing/mocking)
+        HandleMockInput();
+
+        // 2. Run the logic specific to the current state.
+        HandleStateLogic();
+    }
+
+    /// <summary>
+    /// Handles user input for simulating external triggers.
+    /// </summary>
+    private void HandleMockInput()
+    {
         // Check for 'S' key press to simulate an external system setting the task trigger
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -58,9 +70,6 @@ public class AIStateMachine : MonoBehaviour
         {
             SimulateTaskCompletion();
         }
-
-        // 2. Run the logic for the current state.
-        HandleStateLogic();
     }
 
     /// <summary>
@@ -68,19 +77,18 @@ public class AIStateMachine : MonoBehaviour
     /// </summary>
     private void HandleStateLogic()
     {
-        // The 'switch' statement is C#'s clean way to handle multiple conditional branches
-        // based on a single variable (like a multi-level 'if/elif/else' chain in Python).
+        // The 'switch' statement manages the state logic efficiently.
         switch (currentState)
         {
             case AIState.Idle:
                 // Check for time or an external trigger to go Active.
-                idleTime += Time.deltaTime; // Time.deltaTime is the time elapsed since the last frame.
+                idleTime += Time.deltaTime; 
                 
                 if (externalTaskTrigger)
                 {
                     TransitionToState(AIState.Active);
-                    externalTaskTrigger = false; // Reset the trigger
-                        idleTime = 0f;
+                    externalTaskTrigger = false; // Reset the trigger after use
+                    idleTime = 0f;
                 }
                 else if (idleTime >= TIME_TO_ACTIVE_THRESHOLD)
                 {
@@ -98,19 +106,20 @@ public class AIStateMachine : MonoBehaviour
 
             case AIState.TaskComplete:
                 // Task is done. Report and move to EndSession immediately.
+                // This state serves as a brief checkpoint before ending the session.
                 TransitionToState(AIState.EndSession);
                 break;
 
             case AIState.EndSession:
                 // The session has ended. Stop processing.
-                // In a real app, you might wait for a user to start a new session.
-                idleTime = 0f; // Prevent Idle logic from immediately re-triggering.
+                // Logic can be added here to wait for a full reset.
+                idleTime = 0f; 
                 break;
-
+        }
     }
 
     /// <summary>
-    /// Handles the actual state change and logs the transition.
+    /// Handles the actual state change, logs the transition, and outputs the response.
     /// </summary>
     /// <param name="newState">The state to transition to.</param>
     private void TransitionToState(AIState newState)
@@ -125,12 +134,46 @@ public class AIStateMachine : MonoBehaviour
             OnStateChange?.Invoke();
         }
 
-        // Output the correct response/action based on the new state
+        // Output the correct response/action based on the new state (DELIVERABLE REQUIREMENT)
         OutputStateResponse(newState);
     }
 
     /// <summary>
-    /// Mock function to simulate a task completion event.
+    /// Outputs the correct, human-readable response based on the new state.
+    /// </summary>
+    private void OutputStateResponse(AIState state)
+    {
+        switch (state)
+        {
+            case AIState.Idle:
+                Debug.Log("<color=grey>RESPONSE: Entering sleep mode. Awaiting external task trigger or time threshold.</color>");
+                break;
+
+            case AIState.Active:
+                // Determine if the transition was from the time threshold or an external trigger.
+                if (idleTime > 0f) 
+                {
+                    Debug.Log("<color=yellow>RESPONSE: Time threshold reached. Auto-starting task execution.</color>");
+                }
+                else
+                {
+                    Debug.Log("<color=yellow>RESPONSE: External task received. Entering Active mode for processing.</color>");
+                }
+                break;
+
+            case AIState.TaskComplete:
+                // This state is immediately followed by EndSession in current logic.
+                Debug.Log($"<color=green>RESPONSE: Task cycle complete. Finalizing session data.</color>");
+                break;
+
+            case AIState.EndSession:
+                Debug.Log($"<color=magenta>RESPONSE: Session concluded! Successfully completed {dailyTasksCompleted} tasks. Saving metrics and entering deep sleep.</color>");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Mock function to simulate a task completion event, only callable during the Active state.
     /// </summary>
     public void SimulateTaskCompletion()
     {
@@ -138,9 +181,14 @@ public class AIStateMachine : MonoBehaviour
         {
             dailyTasksCompleted++;
             Debug.Log($"<color=cyan>TASK EVENT: Task Completed! Total: {dailyTasksCompleted}/{TASK_COMPLETION_TARGET}</color>");
-              // Fire the OnTaskCompleted event (coordinating with Usman's system)
+            // Fire the OnTaskCompleted event (coordinating with Usman's system)
             OnTaskCompleted?.Invoke(dailyTasksCompleted); 
+
+            // If a task is completed, check the completion target immediately.
+            if (dailyTasksCompleted >= TASK_COMPLETION_TARGET)
+            {
+                TransitionToState(AIState.TaskComplete);
+            }
         }
     }
-
 }
