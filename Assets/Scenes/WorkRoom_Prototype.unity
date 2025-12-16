@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isometricView: {fileID: 1455885316}
-  deskView: {fileID: 1707976938}
+  deskView: {fileID: 301214289}
   smoothTime: 2
   firstPersonViewOrthographicSize: 2
   isometricViewOrthographicSize: 0
@@ -471,6 +471,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &301214288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 301214289}
+  m_Layer: 0
+  m_Name: DeskView
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &301214289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301214288}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.9992629, z: -0.03838783, w: 0}
+  m_LocalPosition: {x: -3.1, y: 0.6, z: -10.43}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 4.4, y: 180, z: 0}
 --- !u!1 &1115560056
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,11 +1135,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2607c5bf1b727b641bfb650039c3d9b3, type: 3}
---- !u!4 &1707976938 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8020492748817809799, guid: 2607c5bf1b727b641bfb650039c3d9b3, type: 3}
-  m_PrefabInstance: {fileID: 1707976937}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1813725945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,6 +1449,7 @@ SceneRoots:
   - {fileID: 162037531}
   - {fileID: 97140749}
   - {fileID: 1455885316}
+  - {fileID: 301214289}
   - {fileID: 194934356}
   - {fileID: 1115560059}
   - {fileID: 1707976937}
